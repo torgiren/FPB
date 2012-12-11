@@ -34,13 +34,18 @@ class GraphEngine:
 		self.__y=-0.5
 		self.__z=0
 		self.__r=0
+	def __del__(self):
+		for o in self.__objs:
+			glDeleteTextures(o.RetTexture())
 	def render(self):
 		glLoadIdentity()
 		glRotatef(self.__r,0,1,0)
 		glTranslatef(self.__x,self.__y,self.__z)
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 		for o in self.__objs:
-			self.draw(o)
+			p=o.RetPos()
+			if abs(p[0]+self.__x)<10 and abs(p[2]+self.__z)<10:
+				self.draw(o)
 		pygame.display.flip()
 	def draw(self,obj):
 		glPushMatrix()
@@ -48,7 +53,7 @@ class GraphEngine:
 		pos=obj.RetPos()
 		glTranslate(*pos)
 		points=obj.RetPoints()
-		glBindTexture(GL_TEXTURE_2D, obj.texture)
+		glBindTexture(GL_TEXTURE_2D, obj.RetTexture())
 		glBegin(obj.RetType())
 		for p in points:
 			glTexCoord2f(p[0],p[1])

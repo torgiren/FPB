@@ -24,8 +24,8 @@ class GameEngine:
 			for j in range(1,10):
 				self.__graph.add_obj(Floor(i,0,-j,texture=floor))
 		pygame.mouse.set_visible(False)
-	def __del__(self):
-		pygame.mouse.set_visible(True)
+#	def __del__(self):
+#		pygame.mouse.set_visible(True)
 	def mainLoop(self):
 		while not self.__quit:
 			event = pygame.event.poll() 
@@ -34,11 +34,11 @@ class GameEngine:
 #			if event.type == pygame.MOUSEMOUTIN:
 			(mousex,mousey)=pygame.mouse.get_pos()
 			if mousex is not 100:
-				print float(mousex)
+#				print float(mousex)
 				delta=(float((mousex-100))/2)
 				self.__graph.move(r=delta)
 #				self.__graph.move(r=-self.__last_move)
-				print delta
+#				print delta
 				pygame.mouse.set_pos((100,100))
 
 			keys=pygame.key.get_pressed()
@@ -57,5 +57,3 @@ class GameEngine:
 				self.__graph.move(side=-0.03*speed)
 			self.__graph.render()
 			pygame.time.delay(20)
-			
-		
