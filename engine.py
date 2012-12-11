@@ -17,7 +17,7 @@ class GameEngine:
 		self.__y=-0.5
 		self.__z=0
 		self.__r=0
-		self.loadMap("demo.map")
+		self.loadMap("gen.map")
 	def __del__(self):
 		self.__graph.del_textures(self.__objs)
 	def loadMap(self,path):
@@ -91,7 +91,7 @@ class GameEngine:
 		deltaz-=forward*math.cos(math.radians(self.__r))
 		deltaz+=side*math.sin(math.radians(self.__r))
 		self.__z+=deltaz
-		print self.__x, self.__z
+#		print self.__x, self.__z
 		for o in self.__objs:
 			if self.checkCol(o):
 				self.__x-=deltax
