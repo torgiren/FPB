@@ -34,7 +34,8 @@ class GameEngine:
 		for i in range(0,sizeY):
 			self.__graph.add_obj(Block(0,0,i,texture=text))
 			self.__graph.add_obj(Block(sizeX,0,i,texture=text))
-			
+		pos=loader.RetStart()
+		self.__graph.setPos(*pos)
 
 	def mainLoop(self):
 		while not self.__quit:

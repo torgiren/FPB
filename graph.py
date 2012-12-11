@@ -81,3 +81,6 @@ class GraphEngine:
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 		return texture
+	def setPos(self,x,z):
+		self.__x=x
+		self.__z=z

@@ -5,6 +5,10 @@ class MapLoader:
 		line=line.split()
 		self.__sizeX=line[0]
 		self.__sizeY=line[1]
+		line=f.readline()
+		line=line.split()
+		self.__startX=line[0]
+		self.__startY=line[1]
 		self.__objs=[]
 		while True:
 			line=f.readline()
@@ -21,3 +25,5 @@ class MapLoader:
 		return self.__objs
 	def RetSize(self):
 		return (int(self.__sizeX),int(self.__sizeY))
+	def RetStart(self):
+		return (int(self.__startX), int(self.__startY))
