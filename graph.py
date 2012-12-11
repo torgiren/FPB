@@ -44,6 +44,7 @@ class GraphEngine:
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 		for o in self.__objs:
 			p=o.RetPos()
+#			print p
 			if abs(p[0]+self.__x)<10 and abs(p[2]+self.__z)<10:
 				self.draw(o)
 		pygame.display.flip()

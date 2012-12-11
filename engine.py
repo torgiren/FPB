@@ -2,32 +2,40 @@ import pygame
 from graph import *
 from block import *
 from floor import *
+from map import *
 from pygame.locals import *
 class GameEngine:
 	def __init__(self):
 		pygame.init()
 		self.__quit=False
 		self.__graph=GraphEngine()
-		text=self.__graph.loadTexture("bunker2.jpg")
-		floor=self.__graph.loadTexture("bunker1.jpg")
-		ceiling=self.__graph.loadTexture("bunker1.jpg")
-		self.__graph.add_obj(Block(5,0,-5,texture=text))
-		self.__graph.add_obj(Block(4,0,-5,texture=text))
-		self.__graph.add_obj(Block(3,0,-5,texture=text))
-		self.__graph.add_obj(Block(2,0,-5,texture=text))
-		self.__graph.add_obj(Block(-5,0,-5,texture=text))
-
-		self.__graph.add_obj(Block(5,0,-5,texture=text))
-		self.__graph.add_obj(Block(5,0,-6,texture=text))
-		self.__graph.add_obj(Block(5,0,-7,texture=text))
-		self.__graph.add_obj(Block(5,0,-8,texture=text))
-		for i in range(-10,10):
-			for j in range(1,10):
-				self.__graph.add_obj(Floor(i,0,-j,texture=floor))
-				self.__graph.add_obj(Floor(i,1,-j,texture=ceiling))
 		pygame.mouse.set_visible(False)
+		self.loadMap("demo.map")
 #	def __del__(self):
 #		pygame.mouse.set_visible(True)
+	def loadMap(self,path):
+		loader=MapLoader(path)
+		text=self.__graph.loadTexture("bunker2.jpg")
+		floor=self.__graph.loadTexture("bunker1.jpg")
+#		ceiling=self.__graph.loadTexture("bunker1.jpg")
+		objs=loader.RetObjs()
+		for o in objs:
+			if o[2] == "wall":
+				self.__graph.add_obj(Block(int(o[0]),0,int(o[1]),texture=text))
+		(sizeX,sizeY)=loader.RetSize()
+		print sizeX,sizeY
+		for i in range(1,sizeX):
+			for j in range(1, sizeY):
+				self.__graph.add_obj(Floor(i,0,j,texture=floor))
+				self.__graph.add_obj(Floor(i,1,j,texture=floor))
+		for i in range(0,sizeX):
+			self.__graph.add_obj(Block(i,0,0,texture=text))
+			self.__graph.add_obj(Block(i,0,sizeY,texture=text))
+		for i in range(0,sizeY):
+			self.__graph.add_obj(Block(0,0,i,texture=text))
+			self.__graph.add_obj(Block(sizeX,0,i,texture=text))
+			
+
 	def mainLoop(self):
 		while not self.__quit:
 			event = pygame.event.poll() 
