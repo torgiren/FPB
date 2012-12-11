@@ -5,37 +5,73 @@ class Block(Object):
 		Object.__init__(self,posx,posy,posz,texture)
 		self.points=[]
 		self.type=GL_TRIANGLES
-		self.points.append((0.0,0.0,0.0,0.0,0.0))
-		self.points.append((1.0,0.0,1.0,0.0,0.0))
-		self.points.append((1.0,1.0,1.0,1.0,0.0))
+		self.VBO=True
+		self.VBO_Buf=None
+		self.size=0
 
-		self.points.append((0.0,0.0,0.0,0.0,0.0))
-		self.points.append((1.0,1.0,1.0,1.0,0.0))
-		self.points.append((0.0,1.0,0.0,1.0,0.0))
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+	
+		self.points.extend((1.0,0.0,1.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
 
-		self.points.append((0.0,0.0,0.0,0.0,0.0))
-		self.points.append((1.0,1.0,0.0,1.0,1.0))
-		self.points.append((1.0,0.0,0.0,0.0,1.0))
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,0.0))
 
-		self.points.append((0.0,0.0,0.0,0.0,0.0))
-		self.points.append((0.0,1.0,0.0,1.0,0.0))
-		self.points.append((1.0,1.0,0.0,1.0,1.0))
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((1.0,1.0,0.0,1.0,1.0))
+		self.points.extend((1.0,0.0,0.0,0.0,1.0))
 
-		self.points.append((0.0,0.0,1.0,0.0,0.0))
-		self.points.append((1.0,1.0,1.0,1.0,1.0))
-		self.points.append((1.0,0.0,1.0,0.0,1.0))
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,0.0))
+		self.points.extend((1.0,1.0,0.0,1.0,1.0))
 
-		self.points.append((0.0,0.0,1.0,0.0,0.0))
-		self.points.append((0.0,1.0,1.0,1.0,0.0))
-		self.points.append((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((0.0,0.0,1.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,1.0))
 
-		self.points.append((0.0,0.0,0.0,0.0,1.0))
-		self.points.append((1.0,0.0,1.0,0.0,1.0))
-		self.points.append((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((0.0,0.0,1.0,0.0,0.0))
+		self.points.extend((0.0,1.0,1.0,1.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
 
-		self.points.append((0.0,0.0,0.0,0.0,1.0))
-		self.points.append((1.0,1.0,1.0,1.0,1.0))
-		self.points.append((0.0,1.0,0.0,1.0,1.0))
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((0.0,1.0,0.0,1.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,0.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((1.0,1.0,0.0,1.0,1.0))
+		self.points.extend((1.0,0.0,0.0,0.0,1.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,0.0))
+		self.points.extend((1.0,1.0,0.0,1.0,1.0))
+
+		self.points.extend((0.0,0.0,1.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,1.0))
+
+		self.points.extend((0.0,0.0,1.0,0.0,0.0))
+		self.points.extend((0.0,1.0,1.0,1.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((0.0,1.0,0.0,1.0,1.0))
 
 
 		#self.points.append((x+0.0,y+0.0,z+0.0))

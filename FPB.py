@@ -10,5 +10,7 @@
 #	graph.render()
 #	pygame.time.delay(100)
 from engine import *
+import profile
 engine=GameEngine()
 engine.mainLoop()
+#profile.run("engine.mainLoop()")

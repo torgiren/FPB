@@ -1,8 +1,11 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from OpenGL.raw import GL
+import numpy
 import pygame
 from pygame.locals import *
 import math
+from ctypes import *
 class GraphEngine:
 	def __init__(self):
 		pygame.display.set_mode((800,600),HWSURFACE|OPENGL|DOUBLEBUF)
@@ -50,11 +53,16 @@ class GraphEngine:
 		glTranslate(*pos)
 		points=obj.RetPoints()
 		glBindTexture(GL_TEXTURE_2D, obj.RetTexture())
-		glBegin(obj.RetType())
-		for p in points:
-			glTexCoord2f(p[0],p[1])
-			glVertex3f(p[2],p[3],p[4])
-		glEnd()
+		if obj.VBO:
+			if not obj.VBO_Buf:
+				self.genVBO(obj)
+			self.drawVBO(obj)
+		else:
+			glBegin(obj.RetType())
+			for p in points:
+				glTexCoord2f(p[0],p[1])
+				glVertex3f(p[2],p[3],p[4])
+			glEnd()
 		glPopMatrix()
 	def loadTexture(self,path):
 		surf=pygame.image.load(path)
@@ -67,3 +75,25 @@ class GraphEngine:
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 		return texture
+	def genVBO(self,obj):
+		points=obj.RetPoints()
+		obj.VBO_Buf=glGenBuffers(1)
+		x=numpy.array(points,dtype='float32')
+#		print x
+		glEnableClientState(GL_VERTEX_ARRAY)
+		glBindBuffer(GL_ARRAY_BUFFER,obj.VBO_Buf)
+		glBufferData(GL_ARRAY_BUFFER,x,	GL_STATIC_DRAW)
+		glDisableClientState(GL.GL_VERTEX_ARRAY)
+	def drawVBO(self,obj):
+#		glEnableClientState(GL_VERTEX_ARRAY)
+		glBindBuffer(GL_ARRAY_BUFFER,obj.VBO_Buf)
+#		glEnable( GL_VERTEX_ARRAY )
+#		glEnable( GL_TEXTURE_COORD_ARRAY )
+		glEnableClientState(GL_VERTEX_ARRAY)
+		glEnableClientState(GL_TEXTURE_ARRAY)
+		points=obj.RetPoints()
+		glVertexPointer(3,GL_FLOAT,4*5,c_void_p(4*2))
+		glTexCoordPointer(2,GL_FLOAT,4*5,c_void_p(0))
+		glDrawArrays(GL_TRIANGLES,0,len(points))
+		glDisableClientState(GL_VERTEX_ARRAY)
+		glDisableClientState(GL_TEXTURE_ARRAY)

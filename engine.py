@@ -17,14 +17,16 @@ class GameEngine:
 		self.__y=-0.5
 		self.__z=0
 		self.__r=0
-		self.loadMap("demo.map")
+		self.loadMap("gen.map")
 	def __del__(self):
 		self.__graph.del_textures(self.__objs)
 	def loadMap(self,path):
 		loader=MapLoader(path)
-		text=self.__graph.loadTexture("bunker2.jpg")
-		floor=self.__graph.loadTexture("bunker1.jpg")
-#		ceiling=self.__graph.loadTexture("bunker1.jpg")
+#		text=self.__graph.loadTexture("bunker2.jpg")
+#		floor=self.__graph.loadTexture("bunker1.jpg")
+		text=self.__graph.loadTexture("wall2.png")
+		floor=self.__graph.loadTexture("dirt.png")
+		ceiling=self.__graph.loadTexture("dirt.png")
 		objs=loader.RetObjs()
 		for o in objs:
 			if o[2] == "wall":
@@ -34,7 +36,7 @@ class GameEngine:
 		for i in range(1,sizeX):
 			for j in range(1, sizeY):
 				self.add_obj(Floor(i,0,j,texture=floor))
-				self.add_obj(Floor(i,1,j,texture=floor))
+				self.add_obj(Floor(i,1,j,texture=ceiling))
 		for i in range(0,sizeX):
 			self.add_obj(Block(i,0,0,texture=text))
 			self.add_obj(Block(i,0,sizeY,texture=text))
@@ -91,17 +93,35 @@ class GameEngine:
 		deltaz-=forward*math.cos(math.radians(self.__r))
 		deltaz+=side*math.sin(math.radians(self.__r))
 		self.__z+=deltaz
-		print self.__x, self.__z
+#		print self.__x, self.__z
 		for o in self.__objs:
-			p = o.RetPos()
-			xdist=math.fabs(self.__x+p[0])
-			zdist=math.fabs(self.__z+p[2])
-			if xdist<1.3 and zdist<1.3 and o.__class__.__name__=="Block":
+			if self.checkCol(o):
 				self.__x-=deltax
 				self.__z-=deltaz
 
+				self.__x+=deltax
+				if self.checkCol(o):
+					self.__x-=deltax
+					print "Kolizja x"		
+				self.__z+=deltaz
+				self.__x-=deltax/10
+				if self.checkCol(o):
+					self.__z-=deltaz
+					print "Kolizja Z"		
+
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
+	def checkCol(self,obj,factor=0.2):
+		p = obj.RetPos()
+		xdist=self.__x+p[0]
+		zdist=self.__z+p[2]
+		xcol = xdist>-1-factor and xdist<factor
+		zcol = zdist>-1-factor and zdist<factor
+		if obj.__class__.__name__=="Block" and xcol and zcol:
+			return True
+		else:
+			return False
+		
 	def SetPos(self,x,z):
 		self.__x=x
 		self.__z=z
