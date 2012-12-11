@@ -20,7 +20,7 @@ class GraphEngine:
 
 
 		glViewport(0,0,800,600)
-		glClearColor(1.0,1.0,1.0,0.0)
+		glClearColor(0.3,0.3,0.3,0.0)
 		glColor3f(1.0,1.0,1.0)
 		glPointSize(2.0)
 		glMatrixMode(GL_PROJECTION)
