@@ -22,9 +22,11 @@ class GameEngine:
 		self.__graph.del_textures(self.__objs)
 	def loadMap(self,path):
 		loader=MapLoader(path)
-		text=self.__graph.loadTexture("bunker2.jpg")
-		floor=self.__graph.loadTexture("bunker1.jpg")
-#		ceiling=self.__graph.loadTexture("bunker1.jpg")
+#		text=self.__graph.loadTexture("bunker2.jpg")
+#		floor=self.__graph.loadTexture("bunker1.jpg")
+		text=self.__graph.loadTexture("wall2.png")
+		floor=self.__graph.loadTexture("dirt.png")
+		ceiling=self.__graph.loadTexture("dirt.png")
 		objs=loader.RetObjs()
 		for o in objs:
 			if o[2] == "wall":
@@ -34,7 +36,7 @@ class GameEngine:
 		for i in range(1,sizeX):
 			for j in range(1, sizeY):
 				self.add_obj(Floor(i,0,j,texture=floor))
-				self.add_obj(Floor(i,1,j,texture=floor))
+				self.add_obj(Floor(i,1,j,texture=ceiling))
 		for i in range(0,sizeX):
 			self.add_obj(Block(i,0,0,texture=text))
 			self.add_obj(Block(i,0,sizeY,texture=text))
