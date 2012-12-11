@@ -97,12 +97,8 @@ class GameEngine:
 			xdist=math.fabs(self.__x+p[0])
 			zdist=math.fabs(self.__z+p[2])
 			if xdist<1.3 and zdist<1.3 and o.__class__.__name__=="Block":
-				if xdist<1.3 and zdist>1.3:
-					self.__x-=deltax
-				if xdist>1.3 and zdist<1.3:
-					self.__z-=deltaz
-#				self.__x-=deltax
-#				self.__z-=deltaz
+				self.__x-=deltax
+				self.__z-=deltaz
 
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
