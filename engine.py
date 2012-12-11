@@ -109,7 +109,7 @@ class GameEngine:
 
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
-	def checkCol(self,obj,factor=0.3):
+	def checkCol(self,obj,factor=0.2):
 		p = obj.RetPos()
 		xdist=self.__x+p[0]
 		zdist=self.__z+p[2]
