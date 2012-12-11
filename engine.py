@@ -8,8 +8,9 @@ class GameEngine:
 		pygame.init()
 		self.__quit=False
 		self.__graph=GraphEngine()
-		text=self.__graph.loadTexture("stone.jpg")
-		floor=self.__graph.loadTexture("floor.png")
+		text=self.__graph.loadTexture("bunker2.jpg")
+		floor=self.__graph.loadTexture("bunker1.jpg")
+		ceiling=self.__graph.loadTexture("bunker1.jpg")
 		self.__graph.add_obj(Block(5,0,-5,texture=text))
 		self.__graph.add_obj(Block(4,0,-5,texture=text))
 		self.__graph.add_obj(Block(3,0,-5,texture=text))
@@ -23,6 +24,7 @@ class GameEngine:
 		for i in range(-10,10):
 			for j in range(1,10):
 				self.__graph.add_obj(Floor(i,0,-j,texture=floor))
+				self.__graph.add_obj(Floor(i,1,-j,texture=ceiling))
 		pygame.mouse.set_visible(False)
 #	def __del__(self):
 #		pygame.mouse.set_visible(True)
