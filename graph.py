@@ -5,7 +5,6 @@ from pygame.locals import *
 import math
 class GraphEngine:
 	def __init__(self):
-		pygame.init()
 		pygame.display.set_mode((800,600),HWSURFACE|OPENGL|DOUBLEBUF)
 		glEnable(GL_LIGHTING)
 #		glEnable(GL_LIGHT0)
@@ -40,6 +39,7 @@ class GraphEngine:
 		gluPerspective( 60.0, float( 800 ) / float( 600 ), 0.1, 1000.0 )
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
+
 		self.__objs=[]
 		self.__x=0
 		self.__y=-0.5
