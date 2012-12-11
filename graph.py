@@ -29,23 +29,18 @@ class GraphEngine:
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 
-		self.__objs=[]
-		self.__x=0
-		self.__y=-0.5
-		self.__z=0
-		self.__r=0
-	def __del__(self):
-		for o in self.__objs:
+	def del_textures(self,objs):
+		for o in objs:
 			glDeleteTextures(o.RetTexture())
-	def render(self):
-		glLoadIdentity()
-		glRotatef(self.__r,0,1,0)
-		glTranslatef(self.__x,self.__y,self.__z)
+	def render(self,objs,pos):
+		glLoadIdentity()	
+		glRotatef(pos[3],0,1,0)
+		glTranslatef(pos[0],pos[1],pos[2])
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-		for o in self.__objs:
+		for o in objs:
 			p=o.RetPos()
 #			print p
-			if abs(p[0]+self.__x)<10 and abs(p[2]+self.__z)<10:
+			if abs(p[0]+pos[0])<10 and abs(p[2]+pos[2])<10:
 				self.draw(o)
 		pygame.display.flip()
 	def draw(self,obj):
@@ -61,15 +56,6 @@ class GraphEngine:
 			glVertex3f(p[2],p[3],p[4])
 		glEnd()
 		glPopMatrix()
-	def add_obj(self,obj):
-		self.__objs.append(obj)
-	def move(self,forward=0,y=0,side=0,r=0):
-		self.__x+=forward*math.sin(math.radians(self.__r))
-		self.__x+=side*math.cos(math.radians(self.__r))
-		self.__y+=y
-		self.__z-=forward*math.cos(math.radians(self.__r))
-		self.__z+=side*math.sin(math.radians(self.__r))
-		self.__r+=r
 	def loadTexture(self,path):
 		surf=pygame.image.load(path)
 		data=pygame.image.tostring(surf,"RGBA",1)
@@ -81,6 +67,3 @@ class GraphEngine:
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 		return texture
-	def setPos(self,x,z):
-		self.__x=x
-		self.__z=z
