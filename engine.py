@@ -94,12 +94,18 @@ class GameEngine:
 		print self.__x, self.__z
 		for o in self.__objs:
 			p = o.RetPos()
-			xdist=math.fabs(self.__x+p[0])
-			zdist=math.fabs(self.__z+p[2])
-			if xdist<1.3 and zdist<1.3 and o.__class__.__name__=="Block":
+			xdist=self.__x+p[0]
+			zdist=self.__z+p[2]
+#			if xdist<1.2 and zdist<1.2 and o.__class__.__name__=="Block":
+			if o.__class__.__name__=="Block" and\
+				( xdist >-1.3 and xdist<0.3) and\
+				( zdist >-1.3 and zdist<0.3):
 				self.__x-=deltax
 				self.__z-=deltaz
-
+				if xdist<1.2:
+					print "Kolizja X", xdist
+				if zdist<1.2:
+					print "kolizja Z", zdist
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
 	def SetPos(self,x,z):
