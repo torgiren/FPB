@@ -7,9 +7,17 @@ class GameEngine:
 		pygame.init()
 		self.__quit=False
 		self.__graph=GraphEngine()
-		self.__graph.add_obj(Block(0,0,-5))
-		self.__graph.add_obj(Block(5,0,-5))
-		self.__graph.add_obj(Block(-5,0,-5))
+		text=self.__graph.loadTexture("stone.jpg")
+		self.__graph.add_obj(Block(5,0,-5,texture=text))
+		self.__graph.add_obj(Block(4,0,-5,texture=text))
+		self.__graph.add_obj(Block(3,0,-5,texture=text))
+		self.__graph.add_obj(Block(2,0,-5,texture=text))
+		self.__graph.add_obj(Block(-5,0,-5,texture=text))
+
+		self.__graph.add_obj(Block(5,0,-5,texture=text))
+		self.__graph.add_obj(Block(5,0,-6,texture=text))
+		self.__graph.add_obj(Block(5,0,-7,texture=text))
+		self.__graph.add_obj(Block(5,0,-8,texture=text))
 		pygame.mouse.set_visible(False)
 	def __del__(self):
 		pygame.mouse.set_visible(True)

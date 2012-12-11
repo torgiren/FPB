@@ -6,33 +6,22 @@ import math
 class GraphEngine:
 	def __init__(self):
 		pygame.display.set_mode((800,600),HWSURFACE|OPENGL|DOUBLEBUF)
-		glEnable(GL_LIGHTING)
+#		glEnable(GL_LIGHTING)
 #		glEnable(GL_LIGHT0)
-		glLightfv(GL_LIGHT1,GL_POSITION,[0,0,-9])
-		glEnable(GL_LIGHT1)
+#		glLightfv(GL_LIGHT1,GL_POSITION,[0,0,-9])
+#		glEnable(GL_LIGHT1)
 		glEnable(GL_COLOR_MATERIAL)
 		glShadeModel(GL_SMOOTH)
 		glEnable(GL_DEPTH_TEST)
-		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, [0.7, 0.7, 0.7, 0])
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, [0.8, 0.8, 0.7, 0])
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, [0.8, 0.8, 0.8, 0])
-		glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, 30)
-		glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE); 
-		glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, 0)
-
-		glLightModeli( GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR )
-		glLightfv(GL_LIGHT0, GL_POSITION, [-5, -3, -10, 0])
-		glLightfv(GL_LIGHT0, GL_AMBIENT, [0, 0, 0, 0])
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, [0.7, 0.7, 0.7, 0])
-		glLightfv(GL_LIGHT0, GL_SPECULAR, [0.8, 0.8, 0.8, 0])
-
-		glEnable(GL_LIGHT0)
+		glEnable(GL_TEXTURE_2D)
+		glEnable(GL_BLEND)
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
 
 		glViewport(0,0,800,600)
 		glClearColor(1.0,1.0,1.0,0.0)
-		glColor3f(0.0,0.0,0.0)
+		glColor3f(1.0,1.0,1.0)
 		glPointSize(2.0)
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
@@ -59,9 +48,11 @@ class GraphEngine:
 		pos=obj.RetPos()
 		glTranslate(*pos)
 		points=obj.RetPoints()
+		glBindTexture(GL_TEXTURE_2D, obj.texture)
 		glBegin(obj.RetType())
 		for p in points:
-			glVertex3f(*p)
+			glTexCoord2f(p[0],p[1])
+			glVertex3f(p[2],p[3],p[4])
 		glEnd()
 		glPopMatrix()
 	def add_obj(self,obj):
@@ -73,3 +64,14 @@ class GraphEngine:
 		self.__z-=forward*math.cos(math.radians(self.__r))
 		self.__z+=side*math.sin(math.radians(self.__r))
 		self.__r+=r
+	def loadTexture(self,path):
+		surf=pygame.image.load(path)
+		data=pygame.image.tostring(surf,"RGBA",1)
+		width=surf.get_width()
+		height=surf.get_height()
+		texture=glGenTextures(1)
+		glBindTexture(GL_TEXTURE_2D,texture)
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+		return texture
