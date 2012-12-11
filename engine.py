@@ -56,7 +56,7 @@ class GameEngine:
 				delta=(float((mousex-100))/2)
 				self.move(r=delta)
 #				self.__graph.move(r=-self.__last_move)
-				print delta
+#				print delta
 				pygame.mouse.set_pos((100,100))
 
 			keys=pygame.key.get_pressed()
@@ -76,15 +76,34 @@ class GameEngine:
 			self.__graph.render(self.__objs,self.RetPos())
 #			pygame.time.delay(20)
 			self.__clock.tick(25)
-			print self.__clock.get_fps()
+#			print self.__clock.get_fps()
 	def add_obj(self,obj):
 		self.__objs.append(obj)
 	def move(self,forward=0,y=0,side=0,r=0):
-		self.__x+=forward*math.sin(math.radians(self.__r))
-		self.__x+=side*math.cos(math.radians(self.__r))
+		deltax=0
+		deltax+=forward*math.sin(math.radians(self.__r))
+		deltax+=side*math.cos(math.radians(self.__r))
+		self.__x+=deltax
+
 		self.__y+=y
-		self.__z-=forward*math.cos(math.radians(self.__r))
-		self.__z+=side*math.sin(math.radians(self.__r))
+
+		deltaz=0
+		deltaz-=forward*math.cos(math.radians(self.__r))
+		deltaz+=side*math.sin(math.radians(self.__r))
+		self.__z+=deltaz
+		print self.__x, self.__z
+		for o in self.__objs:
+			p = o.RetPos()
+			xdist=math.fabs(self.__x+p[0])
+			zdist=math.fabs(self.__z+p[2])
+			if xdist<1.3 and zdist<1.3 and o.__class__.__name__=="Block":
+				if xdist<1.3 and zdist>1.3:
+					self.__x-=deltax
+				if xdist>1.3 and zdist<1.3:
+					self.__z-=deltaz
+#				self.__x-=deltax
+#				self.__z-=deltaz
+
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
 	def SetPos(self,x,z):
