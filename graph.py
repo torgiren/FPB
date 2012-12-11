@@ -10,7 +10,7 @@ class GraphEngine:
 #		glEnable(GL_LIGHT0)
 #		glLightfv(GL_LIGHT1,GL_POSITION,[0,0,-9])
 #		glEnable(GL_LIGHT1)
-		glEnable(GL_COLOR_MATERIAL)
+#		glEnable(GL_COLOR_MATERIAL)
 		glShadeModel(GL_SMOOTH)
 		glEnable(GL_DEPTH_TEST)
 		glEnable(GL_TEXTURE_2D)
