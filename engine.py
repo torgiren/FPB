@@ -93,15 +93,33 @@ class GameEngine:
 		self.__z+=deltaz
 		print self.__x, self.__z
 		for o in self.__objs:
-			p = o.RetPos()
-			xdist=math.fabs(self.__x+p[0])
-			zdist=math.fabs(self.__z+p[2])
-			if xdist<1.3 and zdist<1.3 and o.__class__.__name__=="Block":
+			if self.checkCol(o):
 				self.__x-=deltax
 				self.__z-=deltaz
 
+				self.__x+=deltax
+				if self.checkCol(o):
+					self.__x-=deltax
+					print "Kolizja x"		
+				self.__z+=deltaz
+				self.__x-=deltax/10
+				if self.checkCol(o):
+					self.__z-=deltaz
+					print "Kolizja Z"		
+
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
+	def checkCol(self,obj,factor=0.2):
+		p = obj.RetPos()
+		xdist=self.__x+p[0]
+		zdist=self.__z+p[2]
+		xcol = xdist>-1-factor and xdist<factor
+		zcol = zdist>-1-factor and zdist<factor
+		if obj.__class__.__name__=="Block" and xcol and zcol:
+			return True
+		else:
+			return False
+		
 	def SetPos(self,x,z):
 		self.__x=x
 		self.__z=z
