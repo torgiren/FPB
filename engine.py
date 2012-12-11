@@ -36,7 +36,7 @@ class GameEngine:
 			self.__graph.add_obj(Block(sizeX,0,i,texture=text))
 		pos=loader.RetStart()
 		self.__graph.setPos(*pos)
-
+		self.__clock=pygame.time.Clock()
 	def mainLoop(self):
 		while not self.__quit:
 			event = pygame.event.poll() 
@@ -67,4 +67,6 @@ class GameEngine:
 			if keys[K_d]:
 				self.__graph.move(side=-0.03*speed)
 			self.__graph.render()
-			pygame.time.delay(20)
+#			pygame.time.delay(20)
+			self.__clock.tick(25)
+			print self.__clock.get_fps()
