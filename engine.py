@@ -83,6 +83,13 @@ class GameEngine:
 		self.__objs.append(obj)
 		if obj.VBO:
 			self.__graph.genVBO(obj)
+		self.__objs.sort(cmp=self.obj_comp)
+	def obj_comp(self,o1,o2):
+		if o1.__class__.__name__<o2.__class__.__name__:
+			return -1
+		if o2.__class__.__name__>o2.__class__.__name__:
+				return 1
+		return 0
 	def move(self,forward=0,y=0,side=0,r=0):
 		deltax=0
 		deltax+=forward*math.sin(math.radians(self.__r))
