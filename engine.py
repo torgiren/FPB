@@ -9,7 +9,7 @@ class GameEngine:
 	def __init__(self):
 		pygame.init()
 		self.__quit=False
-		self.__graph=GraphEngine()
+		self.__graph=GraphEngine(width=800,height=600)
 		self.__sound=SoundEngine()
 		pygame.mouse.set_visible(False)
 		self.__objs=[]
@@ -42,7 +42,7 @@ class GameEngine:
 		for i in range(1,sizeX):
 			for j in range(1, sizeY):
 				self.add_obj(Floor(i,0,j,texture=floor))
-				self.add_obj(Floor(i,1,j,texture=ceiling))
+				self.add_obj(Ceiling(i,1,j,texture=ceiling))
 		for i in range(0,sizeX):
 			self.add_obj(Block(i,0,0,texture=text))
 			self.add_obj(Block(i,0,sizeY,texture=text))
@@ -146,6 +146,8 @@ class GameEngine:
 	def checkCol(self,obj,factor=0.2):
 		if obj.__class__.__name__=="Floor":
 			return False
+		if obj.__class__.__name__=="Ceiling":
+			return False
 		p = obj.RetPos()
 		xdist=self.__x+p[0]
 		zdist=self.__z+p[2]
@@ -160,7 +162,9 @@ class GameEngine:
 		self.__x=x
 		self.__z=z
 	def RetPos(self):
-		div=20
+		div=40
+		freq=2.5
 		if not self.__moved:
+			freq=1
 			div=100
-		return (self.__x,self.__y+math.sin(2.5*self.__walking)/div, self.__z, self.__r)
+		return (self.__x,self.__y+math.sin(freq*self.__walking)/div, self.__z, self.__r)
