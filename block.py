@@ -8,24 +8,35 @@ class Block(Object):
 		self.VBO=True
 		self.VBO_Buf=None
 
+
+#front
 		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
+
 		self.points.extend((0.0,0.0,0.0,0.0,0.0))
+		self.points.extend((1.0,1.0,1.0,1.0,0.0))
+		self.points.extend((1.0,0.0,1.0,0.0,0.0))
+
+#back
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+		self.points.extend((0.0,1.0,0.0,1.0,1.0))
+
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((1.0,0.0,1.0,0.0,1.0))
+		self.points.extend((1.0,1.0,1.0,1.0,1.0))
+
+#left
+		self.points.extend((1.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,0.0,0.0,0.0,1.0))
+		self.points.extend((0.0,1.0,0.0,1.0,1.0))
+
+		self.points.extend((1.0,0.0,0.0,0.0,0.0))
+		self.points.extend((0.0,1.0,0.0,1.0,1.0))
+		self.points.extend((1.0,1.0,0.0,1.0,0.0))
 	
-		self.points.extend((1.0,0.0,1.0,0.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,0.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,0.0))
-		self.points.extend((0.0,1.0,0.0,1.0,0.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((1.0,1.0,0.0,1.0,1.0))
-		self.points.extend((1.0,0.0,0.0,0.0,1.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((0.0,1.0,0.0,1.0,0.0))
-		self.points.extend((1.0,1.0,0.0,1.0,1.0))
-
+#right
 		self.points.extend((0.0,0.0,1.0,0.0,0.0))
 		self.points.extend((1.0,1.0,1.0,1.0,1.0))
 		self.points.extend((1.0,0.0,1.0,0.0,1.0))
@@ -34,47 +45,4 @@ class Block(Object):
 		self.points.extend((0.0,1.0,1.0,1.0,0.0))
 		self.points.extend((1.0,1.0,1.0,1.0,1.0))
 
-		self.points.extend((0.0,0.0,0.0,0.0,1.0))
-		self.points.extend((1.0,0.0,1.0,0.0,1.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,1.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-		self.points.extend((0.0,1.0,0.0,1.0,1.0))
-		self.points.extend((1.0,0.0,1.0,0.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,0.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,0.0))
-		self.points.extend((0.0,1.0,0.0,1.0,0.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((1.0,1.0,0.0,1.0,1.0))
-		self.points.extend((1.0,0.0,0.0,0.0,1.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,0.0))
-		self.points.extend((0.0,1.0,0.0,1.0,0.0))
-		self.points.extend((1.0,1.0,0.0,1.0,1.0))
-
-		self.points.extend((0.0,0.0,1.0,0.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-		self.points.extend((1.0,0.0,1.0,0.0,1.0))
-
-		self.points.extend((0.0,0.0,1.0,0.0,0.0))
-		self.points.extend((0.0,1.0,1.0,1.0,0.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,1.0))
-		self.points.extend((1.0,0.0,1.0,0.0,1.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-
-		self.points.extend((0.0,0.0,0.0,0.0,1.0))
-		self.points.extend((1.0,1.0,1.0,1.0,1.0))
-		self.points.extend((0.0,1.0,0.0,1.0,1.0))
 		self.size=len(self.points)
-
-
-		#self.points.append((x+0.0,y+0.0,z+0.0))
-		#self.points.append((x+0.0,y+0.0,z+0.0))
-		#self.points.append((x+0.0,y+0.0,z+0.0))
-

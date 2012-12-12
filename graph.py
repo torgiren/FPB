@@ -8,8 +8,8 @@ import math
 from ctypes import *
 import profile
 class GraphEngine:
-	def __init__(self):
-		pygame.display.set_mode((800,600),HWSURFACE|OPENGL|DOUBLEBUF)
+	def __init__(self,width=800,height=600):
+		pygame.display.set_mode((width,height),HWSURFACE|OPENGL|DOUBLEBUF)
 #		glEnable(GL_LIGHTING)
 #		glEnable(GL_LIGHT0)
 #		glLightfv(GL_LIGHT1,GL_POSITION,[0,0,-9])
@@ -20,17 +20,19 @@ class GraphEngine:
 		glEnable(GL_TEXTURE_2D)
 		glEnable(GL_BLEND)
 
+		glEnable(GL_CULL_FACE)
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
 
-		glViewport(0,0,800,600)
+		glViewport(0,0,width,height)
 		glClearColor(0.3,0.3,0.3,0.0)
 		glColor3f(1.0,1.0,1.0)
 		glPointSize(2.0)
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()
-		gluPerspective( 60.0, float( 800 ) / float( 600 ), 0.1, 1000.0 )
+		gluPerspective( 60.0, float( width ) / float( height ), 0.1, 1000.0 )
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
 
