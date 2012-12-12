@@ -74,22 +74,16 @@ class GameEngine:
 			self.__moved=False
 			if keys[K_w]:
 				self.move(forward=-0.05*speed)
-				self.__walking+=0.5*boost
-				self.__moved=True
 			if keys[K_s]:
 				self.move(forward=+0.05*speed)
-				self.__walking+=0.5*boost
-				self.__moved=True
 			if keys[K_a]:
 				self.move(side=+0.03*speed)
-				self.__walking+=0.5*boost
-				self.__moved=True
 			if keys[K_d]:
-				self.__walking+=0.5*boost
 				self.move(side=-0.03*speed)
-				self.__moved=True
 			if not self.__moved:
 				self.__walking+=0.1
+			else:
+				self.__walking+=0.5*boost/2
 			self.__graph.render(self.__objs,self.RetPos())
 #			pygame.time.delay(20)
 			self.__clock.tick(25)
@@ -135,6 +129,7 @@ class GameEngine:
 
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
+		self.__moved=True
 	def checkCol(self,obj,factor=0.2):
 		if obj.__class__.__name__=="Floor":
 			return False
