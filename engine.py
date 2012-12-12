@@ -2,6 +2,7 @@ import pygame
 from graph import *
 from block import *
 from floor import *
+from sound import *
 from map import *
 from pygame.locals import *
 class GameEngine:
@@ -9,6 +10,7 @@ class GameEngine:
 		pygame.init()
 		self.__quit=False
 		self.__graph=GraphEngine()
+		self.__sound=SoundEngine()
 		pygame.mouse.set_visible(False)
 		self.__objs=[]
 #	def __del__(self):
@@ -20,6 +22,8 @@ class GameEngine:
 		self.loadMap("gen.map")
 		self.__walking=0
 		self.__moved=False
+		self.__moved_last=False
+		self.__sound.load("footsteps","pl_step1.wav")
 	def __del__(self):
 		self.__graph.del_textures(self.__objs)
 	def loadMap(self,path):
@@ -81,9 +85,18 @@ class GameEngine:
 			if keys[K_d]:
 				self.move(side=-0.03*speed)
 			if not self.__moved:
+				if self.__moved_last:
+					self.__sound.stop("footsteps")
 				self.__walking+=0.1
 			else:
+				if not self.__moved_last:
+					self.__sound.play("footsteps",loop=-1)
 				self.__walking+=0.5*boost/2
+
+
+			self.__moved_last=self.__moved
+
+
 			self.__graph.render(self.__objs,self.RetPos())
 #			pygame.time.delay(20)
 			self.__clock.tick(25)
@@ -147,7 +160,7 @@ class GameEngine:
 		self.__x=x
 		self.__z=z
 	def RetPos(self):
-		div=30
+		div=20
 		if not self.__moved:
-			div=60
-		return (self.__x,self.__y+math.sin(self.__walking)/div, self.__z, self.__r)
+			div=100
+		return (self.__x,self.__y+math.sin(2.5*self.__walking)/div, self.__z, self.__r)
