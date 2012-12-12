@@ -114,12 +114,14 @@ class GameEngine:
 		self.__r+=r
 #		self.__graph.move(x=x,y=y,z=z,r=r)
 	def checkCol(self,obj,factor=0.2):
+		if obj.__class__.__name__=="Floor":
+			return False
 		p = obj.RetPos()
 		xdist=self.__x+p[0]
 		zdist=self.__z+p[2]
 		xcol = xdist>-1-factor and xdist<factor
 		zcol = zdist>-1-factor and zdist<factor
-		if obj.__class__.__name__=="Block" and xcol and zcol:
+		if xcol and zcol:
 			return True
 		else:
 			return False

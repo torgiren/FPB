@@ -34,6 +34,7 @@ class GraphEngine:
 		glLoadIdentity()
 
 		self.vbos={}
+		self.textures={}
 
 	def del_textures(self,objs):
 		for o in objs:
@@ -43,6 +44,8 @@ class GraphEngine:
 		glRotatef(pos[3],0,1,0)
 		glTranslatef(pos[0],pos[1],pos[2])
 		glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
+#		plusx=100*math.sin(math.radians(pos[3]))
+#		plusy=100*math.cos(math.radians(pos[3]))
 		for o in objs:
 			p=o.RetPos()
 #			print p
@@ -66,6 +69,9 @@ class GraphEngine:
 			glEnd()
 		glPopMatrix()
 	def loadTexture(self,path):
+		if self.textures.has_key(path):
+			return self.textures[path]
+		print "Gen Texture"
 		surf=pygame.image.load(path)
 		data=pygame.image.tostring(surf,"RGBA",1)
 		width=surf.get_width()
@@ -75,6 +81,7 @@ class GraphEngine:
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
+		self.textures[path]=texture
 		return texture
 	def genVBO(self,obj):
 		if self.vbos.has_key(obj.__class__):
@@ -92,10 +99,7 @@ class GraphEngine:
 		glBufferData(GL_ARRAY_BUFFER,x,	GL_STATIC_DRAW)
 		glDisableClientState(GL.GL_VERTEX_ARRAY)
 	def drawVBO(self,obj):
-#		glEnableClientState(GL_VERTEX_ARRAY)
 		glBindBuffer(GL_ARRAY_BUFFER,self.vbos[obj.__class__][0])
-#		glEnable( GL_VERTEX_ARRAY )
-#		glEnable( GL_TEXTURE_COORD_ARRAY )
 		glEnableClientState(GL_VERTEX_ARRAY)
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 		glVertexPointer(3,GL_FLOAT,4*5,c_void_p(4*2))
