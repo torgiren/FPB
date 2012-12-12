@@ -18,6 +18,8 @@ class GameEngine:
 		self.__z=0
 		self.__r=0
 		self.loadMap("gen.map")
+		self.__walking=0
+		self.__moved=False
 	def __del__(self):
 		self.__graph.del_textures(self.__objs)
 	def loadMap(self,path):
@@ -63,18 +65,31 @@ class GameEngine:
 
 			keys=pygame.key.get_pressed()
 			speed=2
+			boost=1
 			if keys[K_ESCAPE]:
 				self.__quit=True
 			if keys[K_LSHIFT]:
-				speed*=2
+				boost=2
+			speed*=boost
+			self.__moved=False
 			if keys[K_w]:
 				self.move(forward=-0.05*speed)
+				self.__walking+=0.5*boost
+				self.__moved=True
 			if keys[K_s]:
 				self.move(forward=+0.05*speed)
+				self.__walking+=0.5*boost
+				self.__moved=True
 			if keys[K_a]:
 				self.move(side=+0.03*speed)
+				self.__walking+=0.5*boost
+				self.__moved=True
 			if keys[K_d]:
+				self.__walking+=0.5*boost
 				self.move(side=-0.03*speed)
+				self.__moved=True
+			if not self.__moved:
+				self.__walking+=0.1
 			self.__graph.render(self.__objs,self.RetPos())
 #			pygame.time.delay(20)
 			self.__clock.tick(25)
@@ -137,4 +152,7 @@ class GameEngine:
 		self.__x=x
 		self.__z=z
 	def RetPos(self):
-		return (self.__x,self.__y, self.__z, self.__r)
+		div=30
+		if not self.__moved:
+			div=60
+		return (self.__x,self.__y+math.sin(self.__walking)/div, self.__z, self.__r)
