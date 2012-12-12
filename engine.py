@@ -62,11 +62,11 @@ class GameEngine:
 				pygame.mouse.set_pos((100,100))
 
 			keys=pygame.key.get_pressed()
-			speed=1
+			speed=2
 			if keys[K_ESCAPE]:
 				self.__quit=True
 			if keys[K_LSHIFT]:
-				speed=2
+				speed*=2
 			if keys[K_w]:
 				self.move(forward=-0.05*speed)
 			if keys[K_s]:

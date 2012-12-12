@@ -13,4 +13,4 @@ from engine import *
 import profile
 engine=GameEngine()
 engine.mainLoop()
-#profile.run("engine.mainLoop()")
+#profile.run("engine.mainLoop()",sort=1)

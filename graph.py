@@ -6,6 +6,7 @@ import pygame
 from pygame.locals import *
 import math
 from ctypes import *
+import profile
 class GraphEngine:
 	def __init__(self):
 		pygame.display.set_mode((800,600),HWSURFACE|OPENGL|DOUBLEBUF)
@@ -35,6 +36,7 @@ class GraphEngine:
 
 		self.vbos={}
 		self.textures={}
+		self.last_obj=None
 
 	def del_textures(self,objs):
 		for o in objs:
@@ -99,11 +101,16 @@ class GraphEngine:
 		glBufferData(GL_ARRAY_BUFFER,x,	GL_STATIC_DRAW)
 		glDisableClientState(GL.GL_VERTEX_ARRAY)
 	def drawVBO(self,obj):
-		glBindBuffer(GL_ARRAY_BUFFER,self.vbos[obj.__class__][0])
 		glEnableClientState(GL_VERTEX_ARRAY)
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY)
-		glVertexPointer(3,GL_FLOAT,4*5,c_void_p(4*2))
-		glTexCoordPointer(2,GL_FLOAT,4*5,c_void_p(0))
+		if self.last_obj != obj.__class__:
+			glBindBuffer(GL_ARRAY_BUFFER,self.vbos[obj.__class__][0])
+			glVertexPointer(3,GL_FLOAT,4*5,c_void_p(4*2))
+			glTexCoordPointer(2,GL_FLOAT,4*5,c_void_p(0))
+			self.last_obj=obj.__class__
 		glDrawArrays(GL_TRIANGLES,0,self.vbos[obj.__class__][1])
 		glDisableClientState(GL_VERTEX_ARRAY)
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY)
+
+
+
