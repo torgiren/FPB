@@ -14,10 +14,11 @@ class GraphEngine:
 #		glLightfv(GL_LIGHT1,GL_POSITION,[0,0,-9])
 #		glEnable(GL_LIGHT1)
 #		glEnable(GL_COLOR_MATERIAL)
-		glShadeModel(GL_SMOOTH)
+#		glShadeModel(GL_SMOOTH)
 		glEnable(GL_DEPTH_TEST)
 		glEnable(GL_TEXTURE_2D)
 		glEnable(GL_BLEND)
+
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 
@@ -31,6 +32,8 @@ class GraphEngine:
 		gluPerspective( 60.0, float( 800 ) / float( 600 ), 0.1, 1000.0 )
 		glMatrixMode(GL_MODELVIEW)
 		glLoadIdentity()
+
+		self.vbos={}
 
 	def del_textures(self,objs):
 		for o in objs:
@@ -54,8 +57,6 @@ class GraphEngine:
 		points=obj.RetPoints()
 		glBindTexture(GL_TEXTURE_2D, obj.RetTexture())
 		if obj.VBO:
-			if not obj.VBO_Buf:
-				self.genVBO(obj)
 			self.drawVBO(obj)
 		else:
 			glBegin(obj.RetType())
@@ -76,24 +77,29 @@ class GraphEngine:
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data)
 		return texture
 	def genVBO(self,obj):
+		if self.vbos.has_key(obj.__class__):
+			return
+		print "Gen VBO"
 		points=obj.RetPoints()
-		obj.VBO_Buf=glGenBuffers(1)
+		
+		self.vbos[obj.__class__]=(glGenBuffers(1),obj.size)
+#		obj.VBO_Buf=glGenBuffers(1)
+
 		x=numpy.array(points,dtype='float32')
 #		print x
 		glEnableClientState(GL_VERTEX_ARRAY)
-		glBindBuffer(GL_ARRAY_BUFFER,obj.VBO_Buf)
+		glBindBuffer(GL_ARRAY_BUFFER,self.vbos[obj.__class__][0])
 		glBufferData(GL_ARRAY_BUFFER,x,	GL_STATIC_DRAW)
 		glDisableClientState(GL.GL_VERTEX_ARRAY)
 	def drawVBO(self,obj):
 #		glEnableClientState(GL_VERTEX_ARRAY)
-		glBindBuffer(GL_ARRAY_BUFFER,obj.VBO_Buf)
+		glBindBuffer(GL_ARRAY_BUFFER,self.vbos[obj.__class__][0])
 #		glEnable( GL_VERTEX_ARRAY )
 #		glEnable( GL_TEXTURE_COORD_ARRAY )
 		glEnableClientState(GL_VERTEX_ARRAY)
-		glEnableClientState(GL_TEXTURE_ARRAY)
-		points=obj.RetPoints()
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY)
 		glVertexPointer(3,GL_FLOAT,4*5,c_void_p(4*2))
 		glTexCoordPointer(2,GL_FLOAT,4*5,c_void_p(0))
-		glDrawArrays(GL_TRIANGLES,0,len(points))
+		glDrawArrays(GL_TRIANGLES,0,self.vbos[obj.__class__][1])
 		glDisableClientState(GL_VERTEX_ARRAY)
-		glDisableClientState(GL_TEXTURE_ARRAY)
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY)

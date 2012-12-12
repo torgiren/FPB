@@ -78,9 +78,11 @@ class GameEngine:
 			self.__graph.render(self.__objs,self.RetPos())
 #			pygame.time.delay(20)
 			self.__clock.tick(25)
-#			print self.__clock.get_fps()
+			print self.__clock.get_fps()
 	def add_obj(self,obj):
 		self.__objs.append(obj)
+		if obj.VBO:
+			self.__graph.genVBO(obj)
 	def move(self,forward=0,y=0,side=0,r=0):
 		deltax=0
 		deltax+=forward*math.sin(math.radians(self.__r))
