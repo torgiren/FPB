@@ -9,6 +9,7 @@ class GameEngine:
 	def __init__(self):
 		pygame.init()
 		self.__quit=False
+#		self.__graph=GraphEngine(width=1920,height=1080)
 		self.__graph=GraphEngine(width=800,height=600)
 		self.__sound=SoundEngine()
 		pygame.mouse.set_visible(False)
@@ -87,9 +88,11 @@ class GameEngine:
 			if not self.__moved:
 				if self.__moved_last:
 					self.__sound.stop("footsteps")
+					self.__walking=0
 				self.__walking+=0.1
 			else:
 				if not self.__moved_last:
+					self.__walking=0
 					self.__sound.play("footsteps",loop=-1)
 				self.__walking+=0.5*boost/2
 
